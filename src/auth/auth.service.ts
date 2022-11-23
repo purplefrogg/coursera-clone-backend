@@ -49,7 +49,7 @@ export class AuthService {
   async logout(id: string) {
     const user = await this.userService.findById(id);
     user.refreshToken = null;
-    return user.save();
+    return user;
   }
   async getToken(user: UserDocument) {
     const accessToken = await this.jwtService.signAsync(
