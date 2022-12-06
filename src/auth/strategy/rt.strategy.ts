@@ -35,7 +35,7 @@ export class RtStrategy extends PassportStrategy(Strategy, "rtStrategy") {
 
     const accessToken = await this.jwtService.signAsync(
       { sub: user.id },
-      { expiresIn: "15m", secret: "at_secret" }
+      { secret: "at_secret" }
     );
     return accessToken;
   }
