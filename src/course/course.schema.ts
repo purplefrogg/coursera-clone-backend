@@ -1,34 +1,48 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { HydratedDocument } from 'mongoose'
+import { Prop, raw, Schema, SchemaFactory } from "@nestjs/mongoose";
+import mongoose, { HydratedDocument } from "mongoose";
 
-export type CourseDocument = HydratedDocument<Course>
+export type WeekDocument = Week & Partial<mongoose.Document>;
+
+@Schema()
+export class Week {
+  @Prop()
+  name: string;
+
+  @Prop()
+  about: string;
+
+  @Prop()
+  lessons?: {
+    name: string;
+    content: string;
+    videoUrl: string;
+  }[];
+}
+
+export type CourseDocument = HydratedDocument<Course>;
 
 @Schema()
 export class Course {
   @Prop()
-  name: string
+  name: string;
 
   @Prop()
-  description: string
+  description: string;
 
   @Prop()
-  imageUrl: string
+  imageUrl: string;
 
   @Prop()
-  createdDate: Date
+  createdDate: Date;
 
   @Prop()
-  creatorName: string
+  creatorName: string;
 
-  @Prop({ name: { unique: true }, required: false })
-  weeks: {
-    name: string
-    about: string
-    lessons: {
-      name: string
-      content: string
-    }[]
-  }[]
+  @Prop({ default: 0 })
+  subscribers: number;
+
+  @Prop([Week])
+  weeks: [WeekDocument];
 }
 
-export const CourseSchema = SchemaFactory.createForClass(Course)
+export const CourseSchema = SchemaFactory.createForClass(Course);

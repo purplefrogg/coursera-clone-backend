@@ -5,7 +5,7 @@ import { Role } from "./roles.enum";
 
 export type UserDocument = HydratedDocument<User>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class User {
   @Prop()
   name: string;
@@ -26,13 +26,19 @@ export class User {
   roles: Role[];
 
   @Prop()
-  createdDate: Date;
-
-  @Prop()
   refreshToken: string;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }] })
   createdCourse: Course[];
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }] })
+  completedCourses: Course[];
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }] })
+  inProgressCourses: Course[];
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }] })
+  subscribedCourse: Course[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

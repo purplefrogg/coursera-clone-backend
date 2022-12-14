@@ -6,12 +6,13 @@ export class AtStrategy extends PassportStrategy(Strategy, 'atStrategy') {
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      // ignoreExpiration: "15m",
       secretOrKey: 'at_secret',
     })
   }
 
   async validate(payload: any) {
+    console.log('atStrategy.validate', payload)
+
     return { userId: payload.sub }
   }
 }
